@@ -1,0 +1,8 @@
+﻿PegaRuleName,RuleId,Priority,ConditionExpression,ResultState,ResultValue,ReasonCode,ImplementationNotes
+DT_JournalCandidate,J-01,10,SourceAccountKnown = FALSE OR DestinationAccountKnown = FALSE,UNKNOWN,JOURNAL,MISSING_ACCOUNT,Evaluate each account independently; UNKNOWN is not a negative match
+DT_JournalCandidate,J-02,20,SourceConfirmedExternal = TRUE OR DestinationConfirmedExternal = TRUE,INELIGIBLE,JOURNAL,NON_INTERNAL_ACCOUNT,Explicit external fact only; do not treat UNKNOWN as external
+DT_JournalCandidate,J-03,30,PostingBookCompatible = FALSE OR CurrencySupported = FALSE,INELIGIBLE,JOURNAL,POSTING_INCOMPATIBLE,Trusted core capability facts
+DT_JournalCandidate,J-04,40,OwnershipEligible = FALSE,INELIGIBLE,JOURNAL,OWNERSHIP_NOT_PERMITTED,Includes client relationship policy; not based on same-name alone
+DT_JournalCandidate,J-05,50,SourceInternal = TRUE AND DestinationInternal = TRUE AND PolicyChecksComplete = FALSE,POSSIBLE,JOURNAL,REQUIRES_POLICY_CHECK,Limits/restrictions and advisor entitlement are rechecked before execution
+DT_JournalCandidate,J-06,60,SourceInternal = TRUE AND DestinationInternal = TRUE AND PostingBookCompatible = TRUE AND CurrencySupported = TRUE AND OwnershipEligible = TRUE AND EntitlementEligible = TRUE AND PolicyChecksPass = TRUE,ELIGIBLE,JOURNAL,JOURNAL_ALLOWED,Illustrative policy; full facts required
+DT_JournalCandidate,J-99,99,OTHERWISE,UNKNOWN,JOURNAL,INSUFFICIENT_FACTS,Catch-all; never default to eligible
